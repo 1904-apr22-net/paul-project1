@@ -32,7 +32,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   displayName: Azure App Service deploy
   inputs:
-    azureSubscription: PaulIsGod
+    azureSubscription: public_paul
     WebAppName: PaulIsGod
     packageForLinux: $(Build.ArtifactStagingDirectory)/publish
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
