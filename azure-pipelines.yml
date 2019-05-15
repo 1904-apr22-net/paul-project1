@@ -21,9 +21,12 @@ steps:
     organization: 'pgrimes88-github'
     scannerMode: 'MSBuild'
     projectKey: 'Paul'
+    extraProperties: sonar
+      sonar.cs.opencover.reportsPath="$(Build.ArtifactStagingDirectory)/coverage/*"
 
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
   displayName: 'dotnet build $(buildConfiguration) $(solutionPath)'
+- script: :dotnet test --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='$(Build.ArtifactStagingDirectory)/coverage/' /p:Exclude="[xunit*]*"
 - task: DotNetCoreCLI@2
   inputs:
     command: test
