@@ -25,14 +25,17 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
-
+    projects: '$(appProjectPath)'
+    publishWebProjects: false
+    arguments: >-
+      --configuration $(buildConfiguration)
+      --output $(System.DefaultWorkingDirectory)/publish
+    zipAfterPublish: true
+  displayName: dotnet publish
+  
 - task: AzureRmWebAppDeployment@4
   displayName: Azure App Service deploy
   inputs:
     azureSubscription: Paul
     WebAppName: PaulIsGod
-    packageForLinux: $(Build.ArtifactStagingDirectory)/publish
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    Package: $(System.DefaultWorkingDirectory)/publish/*.zip
