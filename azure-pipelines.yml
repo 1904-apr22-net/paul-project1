@@ -16,3 +16,9 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
   displayName: 'dotnet build $(buildConfiguration) $(solutionPath)'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: VSTest
+    testResultsFiles: '*'
+    searchFolder: $(Build.ArtifactStagingDirectory)/test
+  displayName: Publish test results
