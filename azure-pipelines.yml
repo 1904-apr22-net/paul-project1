@@ -12,6 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   solutionPath: 'StoreApplicationWeb'
+  appProjectPath: 'StoreApplicationWeb/StoreApplicationWeb'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
