@@ -12,13 +12,31 @@ pool:
 variables:
   buildConfiguration: 'Release'
   solutionPath: 'StoreApplicationWeb'
+  appProjectPath: 'StoreApplicationWeb/StoreApplicationWeb'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
   displayName: 'dotnet build $(buildConfiguration) $(solutionPath)'
-- task: PublishTestResults@2
+- task: DotNetCoreCLI@2
   inputs:
-    testResultsFormat: VSTest
-    testResultsFiles: '*'
-    searchFolder: $(Build.ArtifactStagingDirectory)/test
-  displayName: Publish test results
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+    
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    projects: '$(appProjectPath)'
+    publishWebProjects: false
+    arguments: >-
+      --configuration $(buildConfiguration)
+      --output $(System.DefaultWorkingDirectory)/publish
+    zipAfterPublish: true
+  displayName: dotnet publish
+  
+- task: AzureRmWebAppDeployment@4
+  displayName: Azure App Service deploy
+  inputs:
+    azureSubscription: Paul
+    WebAppName: PaulIsGod
+    Package: $(System.DefaultWorkingDirectory)/publish/*.zip
