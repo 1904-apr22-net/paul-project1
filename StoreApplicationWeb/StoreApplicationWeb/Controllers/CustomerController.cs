@@ -14,13 +14,15 @@ namespace StoreApplicationWeb.Controllers
 {
     public class CustomerController : Controller
     {
-        public StoreApplicationContext dbContext = StoreRepository.CreateDbContext();
-        public IStoreRepository StoreRepo { get; set; } 
+        public IStoreRepository StoreRepo { get; set; }
+        public CustomerController(IStoreRepository repo) =>
+            StoreRepo = repo ?? throw new ArgumentNullException(nameof(repo));
+       // public StoreApplicationContext dbContext = StoreRepository.CreateDbContext();
+       // public IStoreRepository StoreRepo { get; set; } 
 
         // GET: Customer    
         public ActionResult Index()
         {
-            StoreRepo = new StoreRepository(dbContext);
             var items = StoreRepo.GetNames();
             var viewModels = items.Select(c => new ModelCustomer
             {
