@@ -15,6 +15,13 @@ variables:
   appProjectPath: 'StoreApplicationWeb/StoreApplicationWeb'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Sonar'
+    organization: 'pgrimes88-github'
+    scannerMode: 'MSBuild'
+    projectKey: 'Paul'
+
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
   displayName: 'dotnet build $(buildConfiguration) $(solutionPath)'
 - task: DotNetCoreCLI@2
@@ -22,7 +29,13 @@ steps:
     command: test
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
-    
+- task: SonarCloudAnalyze@1
+  inputs:
+    {}
+  displayName: Run code analysis
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '60'
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
