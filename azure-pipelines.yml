@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  solutionPath: '03-mvc/RestaurantReviews'
+  solutionPath: 'StoreApplicationWeb'
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
