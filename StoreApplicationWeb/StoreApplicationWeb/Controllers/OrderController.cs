@@ -16,14 +16,13 @@ namespace StoreApplicationWeb.Controllers
 
     public class OrderController : Controller
     {
-       // public StoreApplicationContext dbContext = StoreRepository.CreateDbContext();
-        public IStoreRepository StoreRepo { get; set; }
-        public OrderController(IStoreRepository repo) =>
-            StoreRepo = repo ?? throw new ArgumentNullException(nameof(repo));
+        public StoreApplicationContext dbContext = StoreRepository.CreateDbContext();
+        public IStoreRepository StoreRepo { get; set; } 
         // GET: Order
         public ActionResult Index(string StoreId = "", string CustomerId = "", string Sort = "", string search = "")
         {
             
+            StoreRepo = new StoreRepository(dbContext);
             IEnumerable<Order> items;
             if(search == "")
             {
@@ -83,6 +82,7 @@ namespace StoreApplicationWeb.Controllers
         // GET: Order/Details/5
         public ActionResult Details([Microsoft.AspNetCore.Mvc.FromQuery] int OrderId)
         {
+            StoreRepo = new StoreRepository(dbContext);
             int id2 = OrderId;
             var items = StoreRepo.GetOrdersAtId(OrderId);
             var products = StoreRepo.DisplayProducts(items.ElementAt(0)).ToList();
@@ -112,6 +112,7 @@ namespace StoreApplicationWeb.Controllers
         // GET: Order/Create
         public ActionResult Create(string error = "")
         {
+            StoreRepo = new StoreRepository(dbContext);
             var test = error;
             var products = StoreRepo.DisplayProducts().OrderBy(x => x.ProductId).ToList();
             var Customers = StoreRepo.GetNames().ToList();
@@ -133,7 +134,7 @@ namespace StoreApplicationWeb.Controllers
 
             var viewModel = new ModelOrder
             {
-                LocationList = StoreRepo.GetLocationAtId().ToList(),
+                LocationList = Mapper.Map(dbContext.Store).ToList(),
                 chooseCust = chooseCust,
                 Products = products,
                 chooseProd = list,
@@ -152,6 +153,7 @@ namespace StoreApplicationWeb.Controllers
 
             try
             {
+                StoreRepo = new StoreRepository(dbContext);
                 decimal total = 0;
                 var products = StoreRepo.DisplayProducts().OrderBy(q => q.ProductId).ToList();
                 var inventories = StoreRepo.GetInventories();
@@ -267,7 +269,7 @@ namespace StoreApplicationWeb.Controllers
                 StoreRepo.AddOrder(newOrder, newOrder.Location, newOrder.Customer);
                 StoreRepo.Save();
                 Thread.Sleep(20);
-                var tempOrderId = StoreRepo.RecentOrderID();
+                var tempOrderId = dbContext.Orders.OrderByDescending(n => n.OrderId).Select(a => a.OrderId).FirstOrDefault();
                 foreach(var p in pAmount)
                 {
                     OrderDetails newOrderDetails = new OrderDetails
@@ -281,7 +283,7 @@ namespace StoreApplicationWeb.Controllers
                         StoreRepo.AddOrderDetails(newOrderDetails, newOrder, p);
                         StoreRepo.Save();
                         Thread.Sleep(20);
-                        var inventoryId = StoreRepo.getInvId(p, newOrder);
+                        var inventoryId = dbContext.Inventory.Where(n => n.ProductId == p.ProductId && n.StoreId == order.StoreId).Select(a => a.InventoryId).First();
                         Inventories inventory = new Inventories
                         {
                             Quantity = p.Quantity,
