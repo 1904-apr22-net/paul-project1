@@ -26,7 +26,15 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration) $(solutionPath)
   displayName: 'dotnet build $(buildConfiguration) $(solutionPath)'
-- script: :dotnet test --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='$(Build.ArtifactStagingDirectory)/coverage/' /p:Exclude="[xunit*]*"
+- script: dotnet test
+    --configuration $(buildConfiguration)
+    /p:CollectCoverage=true
+    /p:CoverletOutputFormat=opencover
+    /p:CoverletOutput='$(Build.ArtifactStagingDirectory)/coverage/'
+    /p:Exclude="[xunit*]*"
+  workingDirectory: $(solutionPath)
+  displayName: 'dotnet test $(buildConfiguration)'
+  
 - task: DotNetCoreCLI@2
   inputs:
     command: test
@@ -56,3 +64,9 @@ steps:
     azureSubscription: Paul
     WebAppName: PaulIsGod
     Package: $(System.DefaultWorkingDirectory)/publish/*.zip
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
