@@ -26,6 +26,8 @@ namespace StoreApplication.Library.Interfaces
 
         IEnumerable<Product> DisplayProducts(Order order = null);
         void AddOrder(Order order, Location location, Customer customer);
+        int RecentOrderID();
+        int getInvId(Product p, Order order);
         void AddOrderDetails(OrderDetails orderDetails, Order order, Product product);
         void UpdateOrderDetails(OrderDetails orderDetails);
         void UpdateInventory(Inventories inventories);

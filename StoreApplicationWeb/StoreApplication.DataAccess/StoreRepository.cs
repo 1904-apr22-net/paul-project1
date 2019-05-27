@@ -19,6 +19,14 @@ namespace StoreApplication.DataAccess
         public StoreRepository(StoreApplicationContext dbContext) =>
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
+        public int getInvId(Product p, Order order)
+        {
+            return _dbContext.Inventory.Where(n => n.ProductId == p.ProductId && n.StoreId == order.StoreId).Select(a => a.InventoryId).First(); ;
+        }
+        public int RecentOrderID()
+        {
+            return _dbContext.Orders.OrderByDescending(n => n.OrderId).Select(a => a.OrderId).FirstOrDefault();
+        }
             /// <summary>
             /// Return list of customers (if name is not null filter customers by last name);
             /// </summary>
@@ -383,14 +391,6 @@ namespace StoreApplication.DataAccess
         {
             Dispose(true);
         }
-        public static StoreApplicationContext CreateDbContext()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<StoreApplicationContext>();
-            optionsBuilder
-                //  .UseLoggerFactory(AppLoggerFactory)
-                .UseSqlServer(SecretConfiguration.ConnectionString);
-
-            return new StoreApplicationContext(optionsBuilder.Options);
-        }
+ 
     }
 }

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.Library", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.DataAccess", "StoreApplication.DataAccess\StoreApplication.DataAccess.csproj", "{1E8E5F24-1C09-4C47-852E-EC01AF3CF102}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApplicaton.Tests", "StoreApplicaton.Tests\StoreApplicaton.Tests.csproj", "{04F3B2A5-BEE5-4EF7-918E-48C793914B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.Tests", "StoreApplication.Tests\StoreApplication.Tests.csproj", "{048322F3-11D6-49AC-9A68-8D26D7114101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{1E8E5F24-1C09-4C47-852E-EC01AF3CF102}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E8E5F24-1C09-4C47-852E-EC01AF3CF102}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E8E5F24-1C09-4C47-852E-EC01AF3CF102}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04F3B2A5-BEE5-4EF7-918E-48C793914B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04F3B2A5-BEE5-4EF7-918E-48C793914B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04F3B2A5-BEE5-4EF7-918E-48C793914B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04F3B2A5-BEE5-4EF7-918E-48C793914B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{048322F3-11D6-49AC-9A68-8D26D7114101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{048322F3-11D6-49AC-9A68-8D26D7114101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{048322F3-11D6-49AC-9A68-8D26D7114101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{048322F3-11D6-49AC-9A68-8D26D7114101}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

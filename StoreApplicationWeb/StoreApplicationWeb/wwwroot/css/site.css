@@ -83,10 +83,9 @@ div#bg {
 }
 
 .my-custom-scrollbar {
-    position: absolute;
-    height: 200px;
+    position: relative;
+    height: 600px;
     overflow: auto;
-    margin: 0px;
 }
 #creatOrder{
     height: 300px;
