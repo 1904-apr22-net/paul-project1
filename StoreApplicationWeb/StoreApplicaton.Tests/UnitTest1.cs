@@ -18,8 +18,16 @@ namespace StoreApplicaton.Tests
                 LName = "b",
                 State = "af",
                 StoreId = 2,
-            }
+                DefaultLocation = new Location()
+                {
+                    LocationId = 1,
+                    Name = "a",
+                    State = "d",
+                }
+            };
             Consumer c2 = Mapper.Map(c);
+
+            Assert.Equal("a", c2.Fname);
                  
         }
     }
